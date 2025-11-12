@@ -94,50 +94,52 @@
   <div class="card">
     <h4>Edit Data</h4>
 
-    <form action="{{ route('crud.update', $item['id']) }}" method="POST" enctype="multipart/form-data">
-      @csrf
+    <form action="{{ route('crud.update', $keahlian->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
-      <div class="mb-3">
+    <div class="mb-3">
         <label class="form-label">Nama</label>
         <input 
-          type="text" 
-          name="nama" 
-          class="form-control" 
-          value="{{ $item['nama'] }}" 
-          required
+            type="text" 
+            name="nama" 
+            class="form-control" 
+            value="{{ $keahlian->nama }}" 
+            required
         >
-      </div>
+    </div>
 
-      <div class="mb-3">
+    <div class="mb-3">
         <label class="form-label">Keahlian</label>
         <input 
-          type="text" 
-          name="keahlian" 
-          class="form-control" 
-          value="{{ $item['keahlian'] }}" 
-          required
+            type="text" 
+            name="keahlian" 
+            class="form-control" 
+            value="{{ $keahlian->keahlian }}" 
+            required
         >
-      </div>
+    </div>
 
-      <div class="mb-3">
+    <div class="mb-3">
         <label class="form-label">Foto Baru</label>
         <input type="file" name="foto" class="form-control">
-        @if (!empty($item['foto']))
-          <div class="mt-3 text-center">
-            <img 
-              src="{{ asset('uploads/' . $item['foto']) }}" 
-              width="120" 
-              alt="Foto {{ $item['nama'] }}"
-            >
-          </div>
+        @if (!empty($keahlian->foto))
+            <div class="mt-3 text-center">
+                <img 
+                    src="{{ asset('storage/' . $keahlian->foto) }}" 
+                    width="120" 
+                    alt="Foto {{ $keahlian->nama }}"
+                >
+            </div>
         @endif
-      </div>
+    </div>
 
-      <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-4">
         <a href="{{ route('crud.index') }}" class="btn btn-secondary px-4">Kembali</a>
         <button type="submit" class="btn btn-primary px-4">Update</button>
-      </div>
-    </form>
+    </div>
+</form>
+
   </div>
 </body>
 </html>

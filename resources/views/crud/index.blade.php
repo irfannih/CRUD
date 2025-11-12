@@ -124,12 +124,21 @@
     </nav>
 
     <div class="container py-5">
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3>🧠 Data Keahlian</h3>
             <a href="{{ route('crud.create') }}" class="btn btn-success shadow">+ Tambah Data</a>
         </div>
 
-        <div class="card shadow-lg border-0 rounded-4">
+        {{-- ✅ ALERT NOTIFIKASI BERHASIL --}}  
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="card shadow-lg border-0 rounded-4 mt-3">
             <div class="card-body">
                 <table class="table table-dark table-bordered align-middle text-center">
                     <thead>
@@ -142,20 +151,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($data as $item)
+                        @forelse ($keahlians as $item)
                             <tr>
-                                <td>{{ $item['id'] }}</td>
-                                <td>{{ $item['nama'] }}</td>
-                                <td>{{ $item['keahlian'] }}</td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->keahlian }}</td>
                                 <td>
-                                    @if($item['foto'])
-                                        <img src="{{ asset('uploads/'.$item['foto']) }}" width="60" class="rounded-3">
+                                    @if($item->foto)
+                                        <img src="{{ asset('storage/'.$item->foto) }}" width="60" class="rounded-3">
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('crud.edit', $item['id']) }}" class="btn btn-primary btn-sm">Edit</a>
-                                    <a href="{{ route('crud.delete', $item['id']) }}" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
+                                    <a href="{{ route('crud.edit', $item->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                    <form action="{{ route('crud.delete', $item->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                            Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
@@ -168,5 +182,18 @@
             </div>
         </div>
     </div>
+
+    {{-- ✅ Script Bootstrap & Auto-hide Alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-close alert setelah 3 detik
+        setTimeout(() => {
+            const alert = document.querySelector('.alert');
+            if (alert) {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }
+        }, 3000);
+    </script>
 </body>
 </html>

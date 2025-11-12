@@ -2,6 +2,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrudController;
+use App\Http\Controllers\KeahlianController;
+
 
 // Route Login
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
@@ -9,14 +11,16 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route Dashboard
-Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('crud/dashboard');
+})->middleware('auth')->name('dashboard');
 
-// Route CRUD (tanpa database)
-Route::prefix('crud')->group(function () {
-    Route::get('/', [CrudController::class, 'index'])->name('crud.index');
-    Route::get('/create', [CrudController::class, 'create'])->name('crud.create');
-    Route::post('/store', [CrudController::class, 'store'])->name('crud.store');
-    Route::get('/edit/{id}', [CrudController::class, 'edit'])->name('crud.edit');
-    Route::post('/update/{id}', [CrudController::class, 'update'])->name('crud.update');
-    Route::get('/delete/{id}', [CrudController::class, 'delete'])->name('crud.delete');
-});
+// Route CRUD
+
+Route::get('/crud', [KeahlianController::class, 'index'])->name('crud.index');
+Route::get('/crud/create', [KeahlianController::class, 'create'])->name('crud.create');
+Route::post('/crud/store', [KeahlianController::class, 'store'])->name('crud.store');
+Route::get('/crud/edit/{id}', [KeahlianController::class, 'edit'])->name('crud.edit');
+Route::put('/crud/update/{id}', [KeahlianController::class, 'update'])->name('crud.update');
+Route::delete('/crud/delete/{id}', [KeahlianController::class, 'destroy'])->name('crud.delete');
+

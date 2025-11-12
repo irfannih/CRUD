@@ -1,31 +1,57 @@
-<?php
-namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-class AuthController extends Controller
-{
-    public function showLogin() {
-return view('crud/login');
-}
-    public function login(Request $request) {
-        $username = $request->username;
-        $password = $request->password;
+<?php 
+ 
+namespace App\Http\Controllers; 
+use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Hash;
+ 
+class AuthController extends Controller 
+{ 
+    // login form
+   public function showLogin()
+    {
+        return view('crud/login');
+    }
+    public function login(Request $request)
+    {
+        // 1. Validasi input
+        $credentials = $request->validate([
+            'name' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        if (Auth::attempt($credentials)) {
+            
+            // 3. Kalo sukses, regenerasi session (biar aman)
+            $request->session()->regenerate();
 
- // Login sederhana tanpa database
-    if ($username == 'admin' && $password == '123') {
-        session(['user' => $username]);
-return redirect()->route('dashboard');
-}
-return back()->with('error', 'Username atau Password salah!');
-}
-    public function dashboard() {
-    if (!session('user')) {
-return redirect()->route('login');
-}
-return view('crud/dashboard');
-}
-    public function logout() {
-    session()->flush();
-return redirect()->route('login');
-}
+            // 4. Arahkan ke dashboard
+            return redirect()->route('dashboard');
+        }
 
+        // 5. Kalo gagal
+        return back()->with('error', 'Username atau Password salah!');
+    }
+    public function dashboard()
+    {
+        $user = Auth::user(); 
+        
+        return view('dashboard', [
+            'nama_user' => $user->name // Kirim nama user ke view   
+        ]);
+    }
+
+
+    //  * Logout 
+
+    public function logout(Request $request)
+    {
+        // . Panggil fungsi logout
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        //  Balik ke login
+        return redirect()->route('login');
+    }
 }

@@ -84,27 +84,37 @@
   </style>
 </head>
 <body>
-  <div class="login-card">
-    <h4>🔒 Login Admin</h4>
-    @if(session('error'))
-      <div class="alert alert-danger text-center py-2">{{ session('error') }}</div>
-    @endif
-    <form action="{{ route('login.post') }}" method="POST">
-      @csrf
-      <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input type="text" name="username" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-login w-100">Masuk</button>
-    </form>
-  </div>
+   <div class="login-card">
+        <h4>👤 Login Admin</h4>
 
-  <footer>
-    © {{ date('Y') }} <span>Sistem CRUD</span> | Irfannih
-  </footer>
+        {{-- Pesan error --}}
+        @if(session('error'))
+            <div class="alert alert-danger text-center py-2">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- Form login --}}
+        <form action="{{ route('login.post') }}" method="POST">
+            @csrf
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="name" class="form-control" required autofocus>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-login w-100">Masuk</button>
+        </form>
+    </div>
+
+    <footer>
+        © {{ date('Y') }} <span>Sistem CRUD</span> | Irfannih
+    </footer>
+
+  
 </body>
 </html>
