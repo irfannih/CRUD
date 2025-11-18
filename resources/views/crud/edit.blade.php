@@ -135,7 +135,7 @@
     </div>
 
     <div class="d-flex justify-content-between mt-4">
-        <a href="{{ route('crud.index') }}" class="btn btn-secondary px-4">Kembali</a>
+        <a href="{{ route('crud.index') }}" class="btn btn-danger px-4">Kembali</a>
         <button type="submit" class="btn btn-primary px-4">Update</button>
     </div>
 </form>

@@ -114,9 +114,9 @@
 
     <div class="container py-5 text-center">
         <div class="card">
-            <h2 class="mb-3 typing-text" id="welcomeMessage" data-text="Selamat Datang, {{ session('user') }}"></h2>
+            <h2 class="mb-3 typing-text" id="welcomeMessage" data-text="Haloo,Welcome yaa!! {{ session('user') }}"></h2>
             
-            <p class="text-muted">Anda berhasil login ke sistem CRUD sederhana berbasis Laravel tanpa database.</p>
+            <p class="text-muted">Anda berhasil login ke sistem CRUD sederhana Akuu AWOKAWOK </p>
             <a href="{{ route('crud.index') }}" class="btn btn-success mt-3">Silahkan Masuk ke Halaman CRUD </a>
         </div>
     </div>
